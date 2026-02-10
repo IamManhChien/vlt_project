@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thư Tình</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffeef8 0%, #ffd6e8 50%, #ffc0d9 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Heart background decoration */
+        body::before {
+            content: '💕';
+            position: absolute;
+            font-size: 30px;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+            top: 10%;
+            left: 10%;
+        }
+
+        body::after {
+            content: '✨';
+            position: absolute;
+            font-size: 25px;
+            opacity: 0.1;
+            animation: float 8s ease-in-out infinite reverse;
+            top: 20%;
+            right: 15%;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(10deg);
+            }
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .envelope-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            transition: transform 0.3s ease;
+        }
+
+        .envelope {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
+            padding: 60px 40px;
+            position: relative;
+            transition: all 0.5s ease;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 200px;
+        }
+
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(to bottom, rgba(255, 182, 193, 0.1), transparent);
+            border-radius: 12px 12px 0 0;
+        }
+
+        .envelope.opening {
+            transform: scale(0.95);
+            opacity: 0;
+        }
+
+        .envelope.hidden {
+            display: none;
+        }
+
+        .open-button {
+            background: linear-gradient(135deg, #ffb6c1, #ffc0cb);
+            color: #ffffff;
+            border: 2px solid #ff91a4;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.2);
+            font-weight: 500;
+            position: relative;
+            z-index: 10;
+        }
+
+        .open-button:hover {
+            background: linear-gradient(135deg, #ff91a4, #ffb6c1);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 105, 180, 0.3);
+        }
+
+        .open-button:active {
+            transform: translateY(0);
+        }
+
+        .open-button.hidden {
+            display: none;
+        }
+
+        .letter {
+            display: none;
+            background: #ffffff;
+            border: 3px solid #ffb6c1;
+            border-radius: 12px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 40px rgba(255, 105, 180, 0.25);
+            max-width: 450px;
+            margin: 0 auto;
+            position: relative;
+            animation: letterAppear 0.6s ease-out;
+        }
+
+        .letter.visible {
+            display: block;
+        }
+
+        @keyframes letterAppear {
+            0% {
+                opacity: 0;
+                transform: translateY(20px) scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .letter-content {
+            color: #333;
+            line-height: 1.8;
+            font-size: 16px;
+            text-align: left;
+        }
+
+        .letter-content h2 {
+            color: #ff69b4;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        .letter-content p {
+            margin-bottom: 15px;
+            text-indent: 20px;
+        }
+
+        .letter-content .signature {
+            text-align: right;
+            margin-top: 30px;
+            font-style: italic;
+            color: #ff91a4;
+        }
+
+        /* Responsive design */
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+
+            .envelope {
+                padding: 40px 25px;
+            }
+
+            .open-button {
+                padding: 12px 25px;
+                font-size: 16px;
+            }
+
+            .letter {
+                padding: 30px 20px;
+            }
+
+            .letter-content {
+                font-size: 14px;
+            }
+
+            .letter-content h2 {
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .envelope {
+                padding: 30px 20px;
+            }
+
+            .open-button {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="envelope-wrapper">
+            <div class="envelope" id="envelope">
+                <button class="open-button" id="openButton">
+                    Nhấn để xem nội dung
+                </button>
+            </div>
+            <div class="letter" id="letter">
+                <div class="letter-content">
+                    <h2>💌 Thư Gửi Bạn</h2>
+                    <p>
+                        Gửi Tuyến,
+                    </p>
+                    <p>
+                        Xin lỗi Tuyến vì đã làm Tuyến phải gặp nhiều buồn phiền và giận dữ vì sự thiếu chu đáo của Chiến. Tuyến đã mong chờ cảm giác được trân trọng, cảm giác được yêu thương nhưng Chiến đã không làm đủ tốt. Đây hoàn toàn là lỗi của Chiến, và Chiến thật sự xin lỗi 
+                    </p>
+                    <p>
+                        Chiến xin lỗi khi đã để những cảm xúc tiêu cực vào những câu chuyện, những lời nói, hành động vừa rồi giữa chúng ta.
+                    </p>
+                    <p>
+                        Chiến không hoàn hảo, Chiến thường xuyên mắc lỗi, Chiến đáng trách. Nhưng Chiến yêu Tuyến là thật. Chiến hay mất thời gian để có thể sắp xếp lại vấn đề, nên cũng thiếu khả năng chia sẻ. Chiến mong sau cùng mình có thể ngồi lại, nói chuyện bình tĩnh, lắng nghe nhiều hơn và cùng sửa sai. Chiến tin tình cảm Chiến dành cho Tuyến đủ nghiêm túc để cùng nhau cố gắng đến cùng
+                    </p>
+                    <div class="signature">
+                        Yêu Tuyến 💕
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const openButton = document.getElementById('openButton');
+        const envelope = document.getElementById('envelope');
+        const letter = document.getElementById('letter');
+
+        openButton.addEventListener('click', function() {
+            // Add opening animation class
+            envelope.classList.add('opening');
+            
+            // Hide button
+            openButton.classList.add('hidden');
+            
+            // After animation, hide envelope and show letter
+            setTimeout(function() {
+                envelope.classList.add('hidden');
+                letter.classList.add('visible');
+            }, 500);
+        });
+    </script>
+</body>
+</html>
+
